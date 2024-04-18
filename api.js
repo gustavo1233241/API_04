@@ -136,6 +136,38 @@ else{
 })
 
 
+app.delete('/tasks/:id/delete', (req, res) => {
+
+
+
+
+    const id = req.params.id;
+    connection.query('DELETE FROM tasks WHERE id = ?', [id], (err, rows)=>{
+
+        if(!err){
+
+
+            if(rows.affectedRows >0){
+            
+            res.json(functions.response('Sucesso', "Task foi deletado", rows.affectedRows, null))
+            
+            }
+            else{
+            
+            
+                res.json(functions.response('Alerta vermelho', "Tasks não encontrada", 0, null))
+            }
+            }
+            else{
+
+
+                res.json(functions.response('Erro', err.message, 0, null))
+            
+            }
+
+    })
+})
+
 app.use((req, res)=>{
 
     res.json(functions.response('atenção', 'Rota não encontrada',0, null))
